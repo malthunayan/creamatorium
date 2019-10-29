@@ -24,6 +24,7 @@ class testPost(APIView):
         return Response(serializer.data)
 
     def post(self, request):
+        print(request.data.e)
         serializer = emplopyeesAPI(data=request.data)
         if serializer.is_valid():
             serializer.save()
