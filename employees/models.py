@@ -33,7 +33,7 @@ class Employee(models.Model):
     visa_expiry = models.DateField(blank=True,null=True)
     hire_date = models.DateField(blank=True,null=True)
     resign_date = models.DateField(blank=True,null=True)
-    branches=models.ManyToManyField(Branch,null=True,blank=True)
+    branches = models.ManyToManyField(Branch,null=True,blank=True)
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,blank=True,unique=True)
     permissions = models.CharField(max_length=50,blank=True,null=True)
     def __str__(self):

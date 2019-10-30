@@ -17,17 +17,19 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path,include
 from clients.views import *
-# from users.views import *
+from users.views import UserData
 from memberships.views import *
 from gyms.views import *
 from branches.views import branchData
 from service.views import *
-from employees.views import employeesData, testPost
+from employees.views import employeesData
 from rest_framework import routers
 from rest_framework_swagger.views import get_swagger_view
 
 schema_view = get_swagger_view(title='APIs Documention')
 
+usersRoute = routers.DefaultRouter()
+usersRoute.register("",UserData,basename='User')
 
 clientsRoute = routers.DefaultRouter()
 clientsRoute.register("",clients,basename='clients')
@@ -54,12 +56,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('clients/', include(clientsRoute.urls)),
     path('employees/', include(employeesRoute.urls)),
-    path('memberships/', ListAndCreateMemberships.as_view()),
-    path('test/', testPost.as_view()),
+    path('memberships/', ListMemberships.as_view()),
+    path('memberships/create', createMemberWithPayment.as_view()),
     path('memberships/<pk>/', RetiveAndUpdateMemberships.as_view()),
     path('memberships-payments/', ListAndCreateMembershipsPayments.as_view()),
     path('memberships-payments/<pk>/', RetiveAndUpdateMembershipsPayments.as_view()),
-    # path('users/', listUser.as_view()),
+    path('users/', include(usersRoute.urls)),
     path('gyms/<pk>/', listGym.as_view()),
     path('branches/', include(branchRoute.urls)),
     path('services/', include(serviceRoute.urls)),

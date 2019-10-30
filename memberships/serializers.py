@@ -29,3 +29,9 @@ class membershipPaymentsAPIs(serializers.ModelSerializer):
     class Meta:
         model = MembershipPayments
         fields = '__all__'
+
+
+class membershipsAPIView(serializers.ModelSerializer):
+       class Meta:
+        model = Membership
+        fields = '__all__'

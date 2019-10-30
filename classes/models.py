@@ -31,7 +31,7 @@ class ClassSession(models.Model):
      vip_capacity = models.PositiveSmallIntegerField(default=0)
 
      def __str__(self):
-         self.coach_class.name +" - Class Session"
+       return  self.coach_class.name +" - Class Session"
 
 
 class ClientsAttendance(models.Model):
@@ -45,4 +45,4 @@ class ClientsAttendance(models.Model):
     date_modified = models.DateField(default=django.utils.timezone.now)
 
     def __str__(self):
-        self.client.name +" - "+ self.class_session.coach_class.name
+       return self.client.name +" - "+ self.class_session.coach_class.name

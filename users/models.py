@@ -40,7 +40,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(verbose_name='email', unique=True, max_length=100)
     mobile = models.IntegerField(unique=True, null=True, blank=True)
     emergency_mobile = models.IntegerField(blank=True, null=True)
-    photo = models.URLField(default='any')
+    photo = models.URLField(default='any',blank=True,null=True)
     username = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
     height = models.IntegerField(default=0)

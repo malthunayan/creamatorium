@@ -1,9 +1,13 @@
-from rest_framework import  generics
+from django.forms import forms
+from rest_framework import generics, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from .serializers import *
 from branches.models import Branch
 
 
-class ListAndCreateMemberships(generics.ListCreateAPIView):
+class ListMemberships(generics.ListAPIView):
     # permission_classes = [IsAuthenticated]
     serializer_class = membershipsAPIs
 
@@ -23,21 +27,34 @@ class RetiveAndUpdateMemberships(generics.RetrieveUpdateAPIView):
     serializer_class = membershipsAPIs
     queryset = Membership.objects.all()
 
-
+#payments
 class ListAndCreateMembershipsPayments(generics.ListCreateAPIView):
     serializer_class = membershipPaymentsAPIs
     def get_queryset(self):
         queryset = MembershipPayments.objects.all()
         membership = self.request.query_params.get('membership', None)
         if membership is not None:
-            queryset = queryset.filter(membership__in=membership)
+            queryset = queryset.filter(membership=membership)
         return queryset
 
 
 class RetiveAndUpdateMembershipsPayments(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = membershipPaymentsAPIs
-    queryset = Membership.objects.all()
+    queryset = MembershipPayments.objects.all()
 
+
+
+class createMemberWithPayment(APIView):
+    def post(self, request):
+        memberShipSerializer = membershipsAPIView(data=request.data['membership'])
+        if memberShipSerializer.is_valid():
+            memberShipSerializer.save()
+            request.data['payment']['membership'] = memberShipSerializer.data['id']
+            paymentSerializer = membershipPaymentsAPIs(data=request.data['payment'])
+            if paymentSerializer.is_valid():
+                paymentSerializer.save()
+            return Response(memberShipSerializer.data, status=status.HTTP_201_CREATED)
+        return Response(memberShipSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Create your views here.

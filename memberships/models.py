@@ -11,7 +11,7 @@ class Membership(models.Model):
     client_name = models.CharField(max_length=255)
     branch = models.ForeignKey(Branch, on_delete=models.PROTECT)
     invoice_number = models.CharField(max_length=255,unique=True)
-    invoice_date =models.DateField(default=django.utils.timezone.now)
+    invoice_date =models.DateTimeField(default=django.utils.timezone.now)
     duration = models.PositiveIntegerField(default=0)
     sessions = models.PositiveIntegerField(default=0)
     extra_days = models.PositiveIntegerField(default=0)
@@ -20,7 +20,7 @@ class Membership(models.Model):
     sessions_valid_to = models.DateField(verbose_name='sessions_valid')
     end_date = models.DateField(verbose_name='end')
     notes = models.CharField(max_length=1000,blank=True,null=True)
-    service = models.ForeignKey(Service, on_delete=models.PROTECT)
+    service = models.ForeignKey(Service,null=True, on_delete=models.PROTECT)
     service_name = models.CharField(max_length=255)
     package = models.ForeignKey(Package, on_delete=models.PROTECT)
     package_name = models.CharField(max_length=255)
@@ -47,4 +47,4 @@ class MembershipPayments(models.Model):
     credit_amount=models.FloatField(default=0)
     credit_refrence = models.IntegerField(default=0)
     def __str__(self):
-        return self.membership.client_name
+        return self.membership.invoice_number

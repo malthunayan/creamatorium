@@ -38,5 +38,5 @@ class Price(models.Model):
     date_modfied = models.DateTimeField(default=django.utils.timezone.now)
 
     def __str__(self):
-        return str(self.package.service.id) + " - "+ self.package.name + " - "+ self.name
+        return str(self.package.service.id) + " - " + self.package.name + " - "+ self.name
 
